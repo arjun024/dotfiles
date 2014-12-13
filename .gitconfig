@@ -1,0 +1,11 @@
+[user]
+	name = Arjun Sreedharan
+	email = arjun024@gmail.com
+
+[sendemail]
+	smtpuser = arjun024@gmail.com
+	smtpserver = smtp.googlemail.com
+	smtpencryption = tls
+	smtpserverport = 587
+	suppresscc = self
+

@@ -26,3 +26,16 @@
 (global-linum-mode t)
 ; Don't show welcome to emacs screen
 (setq inhibit-startup-screen t)
+
+; make searches case insensitive
+(setq case-fold-search t)
+
+; Highlight lines with more than 80 chars
+;(add-hook 'python-mode-hook '(lambda () (highlight-lines-matching-regexp ".\\{81\\}" 'hi-red-b)))
+
+; Highlight characters over 80th column
+(require 'whitespace)
+(setq whitespace-line-column 80)
+(setq whitespace-style '(face lines-tail))
+
+(add-hook 'prog-mode-hook 'whitespace-mode)

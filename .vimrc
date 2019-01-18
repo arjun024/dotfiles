@@ -7,6 +7,7 @@ highlight OverflowEighty ctermbg=NONE ctermfg=NONE cterm=bold
 2match OverflowEighty /\%81v.\+/
 
 " Syntax Highlighting on
+filetype plugin on
 syntax on
 
 " Tabs are 8 columns wide. linux kenel style
@@ -18,3 +19,14 @@ set noexpandtab
 " Show line number
 set number
 
+" Package manager kinda thingy
+execute pathogen#infect()
+
+" NERDTree stuff
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+map \| :NERDTreeToggle<CR>
+" For mac delete key to work
+set backspace=indent,eol,start
+set hlsearch

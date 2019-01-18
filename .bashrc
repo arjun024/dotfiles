@@ -1,12 +1,3 @@
-# .bashrc
-
-# Source global definitions
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+if [ -f ~/.bash_profile ]; then
+	. ~/.bash_profile
 fi
-
-# User specific aliases and functions
-
-#PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-#source $HOME/.rvm/scripts/rvm
-

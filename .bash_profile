@@ -24,3 +24,4 @@ export LSCOLORS=GxFxCxDxBxegedabagaced
 # Go
 export GOPATH=/STORE/DOX/opt/go
 export PATH=$PATH:$GOPATH/bin
+export LARRY=10.55.7.28 MOE=10.55.7.27 CURLY=10.55.7.14 SHEMP=10.55.6.120

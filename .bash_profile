@@ -10,6 +10,8 @@ export LANG=en_US.UTF-8
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
 
+. ./z.sh
+
 export PS1="$ "
 export GOPATH=/opt/go
 if [ `uname` = Darwin ]; then

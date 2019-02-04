@@ -16,7 +16,7 @@ command -v git > /dev/null && git config --global color.ui auto
 export PS1="\e[32m/\W/\e[00m\]$ "
 export GOPATH=/opt/go
 if [ `uname` = Darwin ]; then
-	export PS1="[\u \W\[\e[32m\]\$(parse_git_branch )\[\e[00m\]]$ "
+	export PS1="[\u \W\[\033[32m\]\$(parse_git_branch )\[\033[00m\]]$ "
 	export DOX=/STORE/DOX
 	export MEDIA=/STORE/MEDIA
 	export SETUPS=/STORE/SETUPS

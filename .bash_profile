@@ -7,16 +7,19 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 # For colors during ls, git etc.
+green="\[\033[00;32m\]"
+blue="\[\033[00;34m\]"
+nocolor="\[\033[00;00m\]"
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
 command -v git > /dev/null && git config --global color.ui auto
 
 . ~/z.sh
 
-export PS1="\e[34m/\W/\e[00m\]$ "
+export PS1="$blue\W$nocolor $ "
 export GOPATH=/opt/go
 if [ `uname` = Darwin ]; then
-	export PS1="[\u \W\[\033[32m\]\$(parse_git_branch )\[\033[00m\]]$ "
+	export PS1="[\u \W\$green\$(parse_git_branch )$nocolor]$ "
 	export DOX=/STORE/DOX
 	export MEDIA=/STORE/MEDIA
 	export SETUPS=/STORE/SETUPS

@@ -12,14 +12,13 @@ blue="\[\033[00;34m\]"
 nocolor="\[\033[00;00m\]"
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
-command -v git > /dev/null && git config --global color.ui auto
 
 . ~/z.sh
 
 export PS1="$blue\W$nocolor $ "
 export GOPATH=/opt/go
 if [ `uname` = Darwin ]; then
-	export PS1="[\u \W\$green\$(parse_git_branch )$nocolor]$ "
+	export PS1="[\u \W$green\$(parse_git_branch )$nocolor]$ "
 	export DOX=/STORE/DOX
 	export MEDIA=/STORE/MEDIA
 	export SETUPS=/STORE/SETUPS

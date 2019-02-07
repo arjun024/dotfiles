@@ -13,7 +13,12 @@ nocolor="\[\033[00;00m\]"
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
 
-. ~/z.sh
+# History stuff
+export HISTSIZE=9999 HISTFILESIZE=$HISTSIZE
+# Don't store lines starting with space
+export HISTCONTROL=ignorespace
+
+. ./z.sh
 
 export PS1="$blue\W$nocolor $ "
 export GOPATH=/opt/go

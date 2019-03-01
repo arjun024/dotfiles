@@ -19,6 +19,9 @@ set noexpandtab
 " Show line number
 set number
 
+" space for noh
+nnoremap <silent> <space> :noh<cr>
+
 " Package manager kinda thingy
 execute pathogen#infect()
 

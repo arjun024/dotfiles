@@ -18,7 +18,7 @@ export HISTSIZE=9999 HISTFILESIZE=$HISTSIZE
 # Don't store lines starting with space
 export HISTCONTROL=ignorespace
 
-. ./z.sh
+. ~/z.sh
 
 export PS1="$blue\W$nocolor $ "
 export GOPATH=/opt/go

@@ -1,0 +1,18 @@
+[extensions]
+# send changesets as a series of patch emails
+patchbomb =
+
+[ui]
+username = Arjun Sreedharan <arjun024@gmail.com>
+
+[email]
+method = smtp
+
+[smtp]
+username = arjun024@gmail.com
+host = smtp.gmail.com
+tls = True
+port = 587
+
+# To send a patch
+# hg export tip; hg email tip

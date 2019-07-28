@@ -7,6 +7,7 @@
 
 [sendemail]
 	smtpuser = arjun024@gmail.com
+	# Not sure if this is smtp.gmail.com now
 	smtpserver = smtp.googlemail.com
 	smtpencryption = tls
 	smtpserverport = 587

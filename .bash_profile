@@ -36,6 +36,10 @@ if [ `uname` = Darwin ]; then
 	export GOPATH=/STORE/DOX/opt/go
 fi
 
+# use gnu untils and avoid bsd utils on mac
+PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export PATH=$PATH:$GOPATH/bin
 
 # Work

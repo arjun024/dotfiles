@@ -19,6 +19,7 @@ export HISTSIZE=9999 HISTFILESIZE=$HISTSIZE
 export HISTCONTROL=ignorespace
 
 . ~/z.sh
+. ~/.fzf.bash
 
 export PS1="$blue\W$nocolor $ "
 export GOPATH=/opt/go

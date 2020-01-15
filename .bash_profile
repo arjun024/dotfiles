@@ -46,4 +46,4 @@ PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export PATH=$PATH:$GOPATH/bin
 
 # Work
-export LARRY=10.55.7.28 MOE=10.55.7.27 CURLY=10.55.7.14 SHEMP=10.55.6.120
+export LARRY=10.55.7.28 MOE=10.55.7.27 CURLY=10.55.7.14 SHEMP=10.55.6.120 SACKETT=10.55.4.238

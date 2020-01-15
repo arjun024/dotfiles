@@ -14,6 +14,7 @@ export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
 
 alias ls='ls --color'
+alias grep='grep --color'
 
 # History stuff
 export HISTSIZE=9999 HISTFILESIZE=$HISTSIZE
@@ -33,7 +34,7 @@ if [ `uname` = Darwin ]; then
 	export STUFF=/STORE/STUFF
 	export GIT=/STORE/DOX/git
 	export OPT=/STORE/DOX/opt
-	export ANPYTHON=/Users/arjun/anaconda/bin/python
+	export ANPYTHON=~/anaconda/bin/python
 	export COMSKI=/STORE/DOX/Comski
 	export S="/STORE/DOX/Comski/Class_Notes/s4"
 	export GOPATH=/STORE/DOX/opt/go

@@ -13,6 +13,8 @@ nocolor="\[\033[00;00m\]"
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
 
+alias ls='ls --color'
+
 # History stuff
 export HISTSIZE=9999 HISTFILESIZE=$HISTSIZE
 # Don't store lines starting with space

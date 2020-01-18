@@ -32,6 +32,10 @@ PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export PATH=$PATH:$GOPATH/bin
 
+shopt -s histappend
+# Keep updating history across shells (easy CTL-R)
+PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 source ~/.common_profile.sh

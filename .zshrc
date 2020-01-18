@@ -10,8 +10,13 @@ nocolor="$reset_color"
 basename="%1~"
 currentuser="%n"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
+# history stuff
+setopt appendhistory
+setopt sharehistory
+setopt incappendhistory
 # To run the parse_git_prompt() in PS1
 setopt PROMPT_SUBST
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 source ~/.common_profile.sh

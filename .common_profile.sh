@@ -13,7 +13,7 @@ export LSCOLORS=GxFxCxDxBxegedabagaced
 alias ls='ls --color'
 # Love gnu coreutils and hate bsd bins but whatever
 if ! ls --color > /dev/null 2>&1; then
-	alias ls='ls --G'
+	alias ls='ls -G'
 fi
 alias grep='grep --color'
 

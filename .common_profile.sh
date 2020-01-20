@@ -29,5 +29,8 @@ if [ `uname` = Darwin ]; then
 	PS1="[\$(currshell )$currentuser $basename$green\$(parse_git_branch )$nocolor]$ "
 fi
 
+[ ! -f $HOME/.fzf/bin/fzf ] && [ -f $HOME/.fzf/install ] && \
+echo installing fzf.. && $HOME/.fzf/install
+
 # Work
 export LARRY=10.55.7.28 MOE=10.55.7.27 CURLY=10.55.7.14 SHEMP=10.55.6.120 SACKETT=10.55.4.238

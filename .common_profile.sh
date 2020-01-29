@@ -27,6 +27,7 @@ export HISTCONTROL=ignorespace
 
 PS1="$blue$basename$nocolor $ "
 if [ `uname` = Darwin ]; then
+	[ `whoami` = 'pivotal' ] && unset currentuser
 	PS1="[\$(currshell )$currentuser $basename$green\$(parse_git_branch )$nocolor]$ "
 fi
 

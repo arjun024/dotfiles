@@ -1,12 +1,12 @@
 currshell () {
-	echo 'zsh '
+	echo 'z '
 }
 
 # For prompt
 autoload -Uz colors && colors
-green="$fg_bold[green]"
-blue="$fg_bold[blue]"
-nocolor="$reset_color"
+green="%{$fg_bold[green]%}"
+blue="%{$fg_bold[blue]%}"
+nocolor="%{$reset_color%}"
 basename="%1~"
 currentuser="%n"
 

@@ -2,6 +2,10 @@ parse_git_branch() {
 	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
+kubernetes_context() {
+	kubectl config current-context 2> /dev/null
+}
+
 # Locale
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -28,7 +32,7 @@ export HISTCONTROL=ignorespace
 PS1="$blue$basename$nocolor $ "
 if [ `uname` = Darwin ]; then
 	[ `whoami` = 'pivotal' ] && unset currentuser
-	PS1="[\$(currshell )$currentuser $basename$green\$(parse_git_branch )$nocolor]$ "
+	PS1="[\$(currshell )$currentuser $basename$green\$(parse_git_branch ) $blue\$(kubernetes_context )$nocolor]$ "
 fi
 
 [ ! -f $HOME/.fzf/bin/fzf ] && [ -f $HOME/.fzf/install ] && \

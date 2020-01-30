@@ -15,3 +15,7 @@
 
 [color]
 	ui = auto
+[alias]
+       st = status
+       ci = duet-commit
+       co = checkout

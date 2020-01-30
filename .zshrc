@@ -1,5 +1,5 @@
 currshell () {
-	echo 'z '
+	[ `whoami` = 'pivotal' ] && echo z || echo 'z '
 }
 
 # For prompt

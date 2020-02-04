@@ -14,8 +14,12 @@ currentuser="%n"
 setopt appendhistory
 setopt sharehistory
 setopt incappendhistory
+
 # To run the parse_git_prompt() in PS1
 setopt PROMPT_SUBST
+
+# Completion
+autoload -Uz compinit && compinit
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

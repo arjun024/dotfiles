@@ -20,7 +20,7 @@ if ! ls --color > /dev/null 2>&1; then
 	alias ls='ls -G'
 fi
 alias grep='grep --color'
-alias kc=kubectl
+alias k=kubectl
 
 # History stuff
 export HISTSIZE=9999 HISTFILESIZE=$HISTSIZE

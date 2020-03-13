@@ -41,4 +41,4 @@ echo installing fzf.. && $HOME/.fzf/install
 # Work
 export LARRY=10.55.7.28 MOE=10.55.7.27 CURLY=10.55.7.14 SHEMP=10.55.6.120
 export VERNON=10.55.4.253 SACKETT=10.55.4.238 PICCOLO=10.55.28.154
-export VERNON_U=pivoatal SACKETT_U=pivotal PICCOLO_U=piccolo
+export VERNON_U=pivotal SACKETT_U=pivotal PICCOLO_U=piccolo

@@ -24,12 +24,14 @@ if [ `uname` = Darwin ]; then
 	export COMSKI=/STORE/DOX/Comski
 	export S="/STORE/DOX/Comski/Class_Notes/s4"
 	export GOPATH=/STORE/DOX/opt/go
+	# use gnu untils and avoid bsd utils on mac
+	PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+	PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+	PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+elif [ `uname` = Linux ]; then
+	export PATH=$PATH:/usr/local/go/bin
 fi
 
-# use gnu untils and avoid bsd utils on mac
-PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export PATH=$PATH:$GOPATH/bin
 
 shopt -s histappend

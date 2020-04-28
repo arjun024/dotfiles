@@ -12,6 +12,8 @@ nocolor="\[\033[00;00m\]"
 basename="\W"
 currentuser="\u"
 presentwd="\w"
+hostname="\h"
+newline="\n"
 
 export GOPATH=/opt/go
 if [ `uname` = Darwin ]; then

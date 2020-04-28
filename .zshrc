@@ -9,7 +9,9 @@ blue="%{$fg_bold[blue]%}"
 nocolor="%{$reset_color%}"
 basename="%1~"
 currentuser="%n"
-presentwd="%1d"
+presentwd="%~"
+hostname="%m"
+newline=$'\n'
 
 # history stuff
 setopt appendhistory

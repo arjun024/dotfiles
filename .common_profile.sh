@@ -29,11 +29,11 @@ export HISTCONTROL=ignorespace
 
 . ~/z.sh
 
-PS1="$blue$presentwd \$(parse_git_branch )$nocolor\n$ "
+PS1="$blue$presentwd \$(parse_git_branch )$nocolor$newline$ "
 if [ `uname` = Darwin ]; then
 	[ `whoami` = 'pivotal' ] && unset currentuser
 	# PS1="[\$(currshell )$currentuser $basename$green\$(parse_git_branch ) $blue\$(kubernetes_context )$nocolor]$ "
-	PS1="[\$(currshell )$currentuser $basename$green\$(parse_git_branch )$nocolor]$ "
+	PS1="\$(currshell )$currentuser@$hostname $presentwd$green\$(parse_git_branch )$nocolor$newline$ "
 fi
 
 [ ! -f $HOME/.fzf/bin/fzf ] && [ -f $HOME/.fzf/install ] && \

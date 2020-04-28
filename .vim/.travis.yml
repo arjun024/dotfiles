@@ -1,0 +1,46 @@
+dist: trusty
+sudo: false
+
+env:
+  global:
+    - DEPS=$HOME/deps
+    - PATH=$DEPS/bin:$PATH
+
+addons: { apt: { packages: [python3-dev] } }
+
+matrix:
+  include:
+    - env: ENV=neovim
+    - env: ENV=vim8
+
+install: |
+  pyenv global 3.6
+  mkdir -p ${DEPS}/bin
+  pip3 install vim-vint
+
+  if [ "$ENV" == "vim8" ]; then
+    C_OPTS="--prefix=$DEPS --with-features=huge --disable-gui "
+    case "$ENV" in
+      python)
+        C_OPTS+=--enable-pythoninterp
+        ;;
+      python3)
+        C_OPTS+=--enable-python3interp
+        ;;
+      ruby*)
+        C_OPTS+=--enable-rubyinterp
+        ;;
+    esac
+    git clone --depth 1 https://github.com/vim/vim
+    cd vim
+    ./configure $C_OPTS
+    make
+    make install
+    cd -
+  elif [ "$ENV" == "neovim" ]; then
+    eval "$(curl -Ss https://raw.githubusercontent.com/neovim/bot-ci/master/scripts/travis-setup.sh) nightly-x64" ||
+    pip3 install neovim
+    ln -s $(which nvim) ${DEPS}/bin/vim
+  fi
+
+script: scripts/test

@@ -22,14 +22,6 @@ set number
 " space for noh
 nnoremap <silent> <space> :noh<cr>
 
-" Package manager kinda thingy
-execute pathogen#infect()
-
-" NERDTree stuff
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-map \| :NERDTreeToggle<CR>
 " For mac delete key to work
 set backspace=indent,eol,start
 set hlsearch

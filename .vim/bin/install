@@ -1,0 +1,305 @@
+#!/usr/bin/env bash
+
+set -eu -o pipefail
+
+declare UPDATE=0 INTERACTIVE=1
+declare VIMCMD='vim'
+declare NPM='npm'
+declare PIP='pip'
+
+readonly VIMFILES_PATH="${HOME}/.vim"
+readonly VIMFILES_REPO_NAME='luan/vimfiles'
+readonly VIMFILES_REPO_URL="https://github.com/${VIMFILES_REPO_NAME}"
+readonly FILES_TO_LINK="vimrc gvimrc"
+readonly LOCALS=".vimrc.local.before .vimrc.local .vimrc.local.plugins"
+
+readonly GREEN='\033[0;32m'
+readonly YELLOW='\033[0;33m'
+readonly RED='\033[0;31m'
+readonly BOLD=$(tput bold)
+readonly NORMAL=$(tput sgr0)
+readonly END_COLOR='\033[0;m'
+
+DEBUG=${DEBUG:-}
+if [[ ${DEBUG} ]]; then
+  set -x
+fi
+
+print_usage() {
+  echo -e "Unsupported option: $*"
+  echo -e "Supported options:"
+  echo -e "\\t-u, --update          \\tUpdate all plugins."
+  echo -e "\\t-n, --non-interactive \\tDon't show vim while installing plugins."
+}
+
+parse_flags() {
+  if [[ -t 0 ]]
+  then
+    INTERACTIVE=1
+  else
+    echo "Detected non-interactive shell, forcing --non-interactive"
+    INTERACTIVE=0
+  fi
+
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+
+    case $key in
+      -n|--non-interactive)
+        INTERACTIVE=0
+        shift
+        ;;
+      -u|--update)
+        UPDATE=1
+        shift
+        ;;
+      *)
+        print_usage "$key"
+        exit 1
+        ;;
+    esac
+  done
+
+  readonly INTERACTIVE UPDATE
+}
+
+fail() {
+  declare message=$1
+  echo -e "${RED}${BOLD}${message}${NORMAL}"
+  exit 1
+}
+
+from_repo() {
+  declare dir=$1
+
+  (
+  [[ -d "${dir}" ]] && cd "${dir}" || return 1
+  [[ -e "${dir}/.git" && "$(git remote -v)" == *"${VIMFILES_REPO_NAME}"* ]]
+  )
+}
+
+has_neovim() {
+  which nvim > /dev/null
+}
+
+has_go() {
+  which go > /dev/null
+}
+
+has_elm() {
+  which elm > /dev/null
+}
+
+must_have_pip3() {
+  if which pip3 > /dev/null; then
+    PIP=pip3
+    return
+  elif which pip > /dev/null; then
+    PIP=pip
+    return
+  fi
+  echo -e "\\t${RED}ERROR${END_COLOR} You need python3 with pip installed in" \
+    "order for this configuration to work. Please make sure to install" \
+    "python3 on your system and run this intaller again."
+  exit 1
+}
+
+has_npm() {
+  if which npm > /dev/null; then
+    if [[ $(which npm) == '/usr/bin/npm' ]]; then
+      NPM='sudo npm'
+    fi
+    return 0
+  fi
+  return 1
+}
+
+setup_vimfiles_dir() {
+  declare script_name=$0
+  local dir
+
+  dir="$(cd "$(dirname "${script_name}")" && pwd)"
+  if [[ "$(basename "${dir}")" == "bin" ]]; then
+    dir="$(cd "${dir}"/.. && pwd)"
+  fi
+
+  if ! from_repo "${dir}"; then
+    echo "vimfiles repository not yet cloned. Cloning..."
+    dir="${VIMFILES_PATH}"
+    git clone "${VIMFILES_REPO_URL}" "${dir}"
+  fi
+
+  if [[ "${dir}" != "${VIMFILES_PATH}" ]]; then
+    if [[ ! -e "${VIMFILES_PATH}" ]]; then
+      echo "Detected clone outside of ~/.vim, symlinking"
+      ln -s "${dir}" "${VIMFILES_PATH}"
+    fi
+  fi
+}
+
+setup_neovim_config() {
+  mkdir -p "${XDG_CONFIG_HOME:="${HOME}/.config"}"
+  if [[ ! -e "${XDG_CONFIG_HOME}/nvim" ]]; then
+    ln -s "${VIMFILES_PATH}" "${XDG_CONFIG_HOME}/nvim"
+  fi
+}
+
+initialize_vimfiles() {
+  (
+  cd "${VIMFILES_PATH}" || exit 2
+  if [ -e bundle ]; then
+    rm -rf bundle
+  fi
+  git submodule update --init --recursive
+
+  for file in ${LOCALS}; do
+    dot_file="${HOME}/${file}"
+    touch "${dot_file}"
+  done
+
+  for file in ${FILES_TO_LINK}; do
+    dot_file="${HOME}/.${file}"
+    if [[ ! -e "${dot_file}" ]]; then
+      ln -s "${PWD}/${file}" "${dot_file}"
+    fi
+  done
+  )
+}
+
+install_vim_update() {
+  local install_path
+
+  if [[ "$(uname)" == "Darwin" ]]; then
+    install_path=/usr/local/bin
+  elif [[ "$(uname)" == *"Linux"* ]]; then
+    install_path="${HOME}/bin"
+  fi
+
+  if [[ -L "${install_path}/vim-update" ]]; then
+    rm -f "${install_path}/vim-update"
+  fi
+
+  if [[ ! -L "${install_path}/vim-update" ]]; then
+    mkdir -p "${install_path}"
+    ln -s "${VIMFILES_PATH}/bin/update" "${install_path}/vim-update"
+  fi
+}
+
+setup_elm_dependencies() {
+  echo -e "${YELLOW}INSTALL${END_COLOR} ${BOLD}elm${NORMAL} dependencies..."
+  if has_npm; then
+    npmpackages="\
+      elm-test \
+      elm-oracle \
+      "
+
+    for p in $npmpackages; do
+      (
+      echo -e "\\t${YELLOW}INSTALL${END_COLOR} ${BOLD}${p}${NORMAL}..."
+      if $NPM install -g "${p}"; then
+        echo -e "\\t${GREEN}DONE${END_COLOR}    ${BOLD}${p}${NORMAL}"
+      else
+        echo -e "\\t${RED}ERROR${END_COLOR}    ${BOLD}${p}${NORMAL}"
+      fi
+      ) &
+    done
+  else
+    echo -e "\\t${RED}ERROR${END_COLOR} ${BOLD}NPM not found, some elm dependencies were skipped${NORMAL}!"
+  fi
+
+  (
+  echo -e "\\t${YELLOW}INSTALL${END_COLOR} ${BOLD}elm-format${NORMAL}..."
+  if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    elm_format_url='https://github.com/avh4/elm-format/releases/download/0.2.0-alpha/elm-format-0.2.0-alpha-linux-x64.tgz'
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
+    elm_format_url='https://github.com/avh4/elm-format/releases/download/0.2.0-alpha/elm-format-0.2.0-alpha-mac-x64.tgz'
+  fi
+  tar xz -O < <(curl -L $elm_format_url) > bin/elm-format
+  chmod a+x bin/elm-format
+  echo -e "\\t${GREEN}DONE${END_COLOR}    ${BOLD}elm-format${NORMAL}"
+  ) &
+  wait
+  echo -e "${GREEN}DONE${END_COLOR}    ${BOLD}elm${NORMAL} dependencies"
+}
+
+setup_livedown() {
+  $NPM install -g livedown
+}
+
+setup_neovim_python3() {
+  if which pacman > /dev/null ; then
+    sudo $PIP uninstall -y greenlet 2>/dev/null >/dev/null || true
+    sudo pacman -S --needed --noconfirm python-greenlet
+    sudo $PIP install --upgrade neovim
+    return 0
+  fi
+
+  $PIP install --upgrade neovim
+}
+
+setup_vim_calls() {
+  if has_neovim; then
+    VIMCMD=nvim
+  fi
+
+  exec 4>&1 3>/dev/null
+  if [[ $INTERACTIVE != 1 ]] ; then
+    if has_neovim; then
+      VIMCMD='nvim --headless'
+    else
+      exec 4>&1 1>&3 2>&3
+    fi
+  fi
+}
+
+setup_go_dependencies() {
+  (
+  cd "${VIMFILES_PATH}" || exit 2
+  mkdir -p gobin gopath
+  echo -e "${YELLOW}INSTALL${END_COLOR} ${BOLD}go binaries${NORMAL} (may take a while)..." >&4
+  GOPATH="${PWD}/gopath" ${VIMCMD} +'GoUpdateBinaries' +'qall!'
+  echo
+  echo -e "${GREEN}DONE${END_COLOR} ${BOLD}go binaries${NORMAL}" >&4
+  set +e
+  GOPATH="${PWD}/gopath" GOBIN="${PWD}/gobin" "${PWD}/gobin/gocode" close 2>/dev/null
+  set -e
+  )
+}
+
+install_plugins() {
+  echo -e "${YELLOW}INSTALL${END_COLOR} ${BOLD}vim plugins${NORMAL} (may take a while)..."
+
+  ALL_PLUGINS='true' ${VIMCMD} +'PlugClean!' +'PlugUpdate!' +'qall!'
+
+  if has_neovim; then
+    ${VIMCMD} +'UpdateRemotePlugins' +'qall!'
+    echo
+  fi
+
+  echo -e "${GREEN}DONE${END_COLOR} ${BOLD}vim plugins${NORMAL}" >&4
+}
+
+main() {
+  parse_flags "$@"
+
+  setup_vimfiles_dir
+  has_neovim && setup_neovim_config
+
+  initialize_vimfiles
+  install_vim_update
+
+  has_elm && setup_elm_dependencies
+  has_npm && setup_livedown
+
+  must_have_pip3
+  setup_neovim_python3
+
+  setup_vim_calls
+
+  install_plugins
+
+  has_go && setup_go_dependencies
+  return 0
+}
+
+main "$@"

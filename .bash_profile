@@ -11,6 +11,7 @@ nocolor="\[\033[00;00m\]"
 # For prompt
 basename="\W"
 currentuser="\u"
+presentwd="\w"
 
 export GOPATH=/opt/go
 if [ `uname` = Darwin ]; then

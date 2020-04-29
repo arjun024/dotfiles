@@ -25,3 +25,9 @@ nnoremap <silent> <space> :noh<cr>
 " For mac delete key to work
 set backspace=indent,eol,start
 set hlsearch
+
+" During installation:
+" :so %
+" :PlugInstall
+" see https://linuxhint.com/vim_install_plugins
+source ~/.vim/vimrc

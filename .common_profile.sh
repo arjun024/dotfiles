@@ -34,6 +34,8 @@ if [ `uname` = Darwin ]; then
 	[ `whoami` = 'pivotal' ] && unset currentuser
 	# PS1="[\$(currshell )$currentuser $basename$green\$(parse_git_branch ) $blue\$(kubernetes_context )$nocolor]$ "
 	PS1="\$(currshell )$currentuser@$hostname $presentwd$green\$(parse_git_branch )$nocolor$newline$ "
+else
+	source ~/.git-completion.bash
 fi
 
 [ ! -f $HOME/.fzf/bin/fzf ] && [ -f $HOME/.fzf/install ] && \

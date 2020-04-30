@@ -21,6 +21,7 @@ if ! ls --color > /dev/null 2>&1; then
 fi
 alias grep='grep --color'
 alias k=kubectl
+alias nbrew='HOMEBREW_NO_AUTO_UPDATE=1 brew'
 
 # History stuff
 export HISTSIZE=9999 HISTFILESIZE=$HISTSIZE
@@ -34,10 +35,12 @@ if [ `uname` = Darwin ]; then
 	[ `whoami` = 'pivotal' ] && unset currentuser
 	# PS1="[\$(currshell )$currentuser $basename$green\$(parse_git_branch ) $blue\$(kubernetes_context )$nocolor]$ "
 	PS1="\$(currshell )$currentuser@$hostname $presentwd$green\$(parse_git_branch )$nocolor$newline$ "
+  [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 else
 	source ~/.git-completion.bash
 fi
 
+export GIT_PS1_SHOWDIRTYSTATE=true
 [ ! -f $HOME/.fzf/bin/fzf ] && [ -f $HOME/.fzf/install ] && \
 echo installing fzf.. && $HOME/.fzf/install
 

@@ -162,13 +162,13 @@ Plug 'machakann/vim-swap'
 Plug 'AndrewRadev/splitjoin.vim'
 
 " Dark powered asynchronous completion framework for neovim/Vim8
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+" if has('nvim')
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
 Plug 'zchee/deoplete-clang' " C/C++
 Plug 'zchee/deoplete-go' " Golang
 Plug 'sebastianmarkow/deoplete-rust' " Rust
@@ -180,9 +180,9 @@ let g:deoplete#enable_at_startup = 1
 " Clang based syntax highlighting for Neovim
 Plug 'arakashic/chromatica.nvim'
 
-if !has('nvim') || $ALL_PLUGINS ==# 'true'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+" if !has('nvim') || $ALL_PLUGINS ==# 'true'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
 
 " Provide easy code formatting in Vim by integrating existing code formatters.
 Plug 'Chiel92/vim-autoformat'

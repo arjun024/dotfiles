@@ -4,6 +4,8 @@
 [user]
 	name = Arjun Sreedharan
 	email = arjun024@gmail.com
+[includeIf "gitdir:~/workspace/"]
+	path = .gitconfig-work
 
 [sendemail]
 	smtpuser = arjun024@gmail.com

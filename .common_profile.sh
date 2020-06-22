@@ -6,6 +6,9 @@ kubernetes_context() {
 	kubectl config current-context 2> /dev/null
 }
 
+cps () { echo "export `env | grep SSH_AUTH_SOCK | head -n1`" > /tmp/so; }
+pts () { source /tmp/so; }
+
 # Locale
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8

@@ -32,6 +32,9 @@ if [ `uname` = Darwin ]; then
 	PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 	PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 	PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+	# don't use system vim, no +python3;
+	# brew install vim, change the version in path
+	PATH="/usr/local/Cellar/vim/8.2.1700/bin/vim:$PATH"
 elif [ `uname` = Linux ]; then
 	export PATH=$PATH:/usr/local/go/bin
 fi

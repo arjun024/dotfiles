@@ -28,10 +28,11 @@ if [ `uname` = Darwin ]; then
 	export S="/STORE/DOX/Comski/Class_Notes/s4"
 	export GOPATH=/STORE/DOX/opt/go
 	# use gnu untils and avoid bsd utils on mac
-	# brew install grep; brew install gnu-sed; brew install coreutils
+	# brew install grep; brew install gnu-sed; brew install coreutils; brew install gnu-tar
 	PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 	PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 	PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+	PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
 	# don't use system vim, no +python3;
 	# brew install vim, change the version in path
 	PATH="/usr/local/Cellar/vim/8.2.1700/bin/vim:$PATH"

@@ -8,6 +8,7 @@ kubernetes_context() {
 
 cps () { echo "export `env | grep SSH_AUTH_SOCK | head -n1`" > /tmp/so; }
 pts () { source /tmp/so; }
+inspcnb (){ docker pull "$1" && docker image inspect --format='{{index .Config.Labels "io.buildpacks.buildpackage.metadata" }}' "$1" ; }
 
 # Locale
 export LC_ALL=en_US.UTF-8
